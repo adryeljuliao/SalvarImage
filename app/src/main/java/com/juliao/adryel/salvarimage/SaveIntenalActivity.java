@@ -40,9 +40,34 @@ public class SaveIntenalActivity extends AppCompatActivity {
 
         if(requestCode == 24){
             if(resultCode == RESULT_OK){
-
+                Log.i("RESULTADO", "ENTROU AQUI KK");
                 if(data!=null){
-                    Log.i("RESULTADO", "ENTROU AQUI KK");
+
+                    //Cria um bundle e recupera o valor dos dados, vulgo a imagem tirada
+                    Bundle extras = data.getExtras();
+                    Bitmap imageBitmap = (Bitmap) extras.get("data");
+                    Log.i("DATA", imageBitmap.toString());
+                    //FileOutputStream serve para escrever um arquivo, que no caso seria uma imagem
+                    FileOutputStream outputStream = null;
+
+                    try {
+                        //abrir o arquivo escrito passando como parametro o nome e o contexto
+                        outputStream = openFileOutput("image.jpg", Context.MODE_PRIVATE);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+                    imageBitmap.compress(Bitmap.CompressFormat.JPEG, 85, outputStream);
+
+                    try {
+                        //metodo que garante o envio do último lote de bytes enviados para gravação
+                       outputStream.flush();
+                        //metodo que fecha a stram de leitura ou gravação
+                        outputStream.close();
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
 
 
 
