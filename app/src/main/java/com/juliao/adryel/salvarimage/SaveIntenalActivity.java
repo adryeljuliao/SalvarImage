@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import java.io.FileNotFoundException;
@@ -17,6 +18,8 @@ import java.io.IOException;
 
 public class SaveIntenalActivity extends AppCompatActivity {
     Button botTakePhotoInternal;
+    ImageView imageViewCam;
+    private String FILENAME = "image.jpg";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,7 +55,7 @@ public class SaveIntenalActivity extends AppCompatActivity {
 
                     try {
                         //abrir o arquivo escrito passando como parametro o nome e o contexto
-                        outputStream = openFileOutput("image.jpg", Context.MODE_PRIVATE);
+                        outputStream = openFileOutput(FILENAME, Context.MODE_PRIVATE);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
