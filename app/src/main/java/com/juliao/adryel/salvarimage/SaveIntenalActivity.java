@@ -3,6 +3,7 @@ package com.juliao.adryel.salvarimage;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -12,6 +13,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -20,12 +22,42 @@ public class SaveIntenalActivity extends AppCompatActivity {
     Button botTakePhotoInternal;
     ImageView imageViewCam;
     private String FILENAME = "image.jpg";
+    Button botReadPhotoInternal;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_save_intenal);
 
         botTakePhotoInternal = (Button) findViewById(R.id.botTakePhotoInternal);
+        botReadPhotoInternal = (Button) findViewById(R.id.botReadPhotoInternal);
+        imageViewCam = (ImageView) findViewById(R.id.imageViewInterno);
+
+        botReadPhotoInternal.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                FileInputStream fin ;
+                try {
+                    //abre o arquivo chamado FILENAME para LEITURA
+                    fin = openFileInput(FILENAME);
+
+                    BitmapFactory.Options options = new BitmapFactory.Options();
+                    options.inPreferredConfig = Bitmap.Config.ARGB_8888;
+
+                    Bitmap imagem = BitmapFactory.decodeStream(fin,null, options);
+
+                    imageViewCam.setImageBitmap(imagem);
+
+                    fin.close();
+
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        });
         botTakePhotoInternal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -54,12 +86,12 @@ public class SaveIntenalActivity extends AppCompatActivity {
                     FileOutputStream outputStream = null;
 
                     try {
-                        //abrir o arquivo escrito passando como parametro o nome e o contexto
+                        //se o arquivo ja existe ele irá sobrescrever-lo
                         outputStream = openFileOutput(FILENAME, Context.MODE_PRIVATE);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
-
+                    //bitmap seja reduzido em formato JPEG
                     imageBitmap.compress(Bitmap.CompressFormat.JPEG, 85, outputStream);
 
                     try {
@@ -71,7 +103,7 @@ public class SaveIntenalActivity extends AppCompatActivity {
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
-
+                    Toast.makeText(this, "Imagem salva com sucesso!", Toast.LENGTH_SHORT).show();
 
 
                 }
