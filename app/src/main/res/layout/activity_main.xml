@@ -14,10 +14,14 @@
         android:orientation="vertical">
         <Button
             android:id="@+id/idBotSaveInternoMain"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="armazenamento interno"/>
-
+        <Button
+            android:id="@+id/idBotSaveBDMain"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="armazenamento no banco"/>
     </LinearLayout>
 
 </LinearLayout>
